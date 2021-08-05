@@ -55,7 +55,6 @@ export default {
         }
     },
     methods: {
-        
         inputNumber(e) {
             if(this.visor == '0') {
                 this.visor = this.visor.trim().substring(0, this.visor.length - 1);
@@ -76,12 +75,15 @@ export default {
             this.visor = '';
         },
         equal() {
-            let originalVisor = this.visor;
             this.result = true;
-            this.history.toLocaleString('pt-BR');
-            this.visor.toLocaleString('pt-BR');
+            
+            let originalHistory = this.history;
+            let originalVisor = this.visor;
+            this.history = originalHistory.replace(',', '.').replace('.', ',');
+            this.visor = originalVisor.replace(',', '.').replace('.', ',');
+            
             this.visor = eval(this.history+this.visor).toLocaleString('pt-BR');
-            this.history = this.history + originalVisor + ' =';
+            this.history = originalHistory + originalVisor + ' =';
         },
         clear() {
             this.history = '';

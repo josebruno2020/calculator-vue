@@ -16,7 +16,6 @@ export default {
   },
   methods: {
     keyWords(e) {
-        console.log(e.keyCode)
         switch(e.keyCode) {
             //Botoes;
             case 48: case 96: document.querySelector('#button0').click(); break;
