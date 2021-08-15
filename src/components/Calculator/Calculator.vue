@@ -6,7 +6,7 @@
         </div>
         <section class="row row-0">
             <button type="button" class="button" @click="inputNumber" id="buttonPercent" value="%">%</button>
-            <button type="button" class="button" @click="zero" id="buttonCE" value="">CE</button>
+            <button type="button" class="button" @click="clear" id="buttonCE" value="">CE</button>
             <button type="button" class="button" @click="clear" id="buttonClear" value="">C</button>
             <button type="button" class="button" @click="removeLast" id="buttonEnter" value="">E</button>
         </section>
@@ -52,6 +52,7 @@ export default {
             visor:'',
             history: '',
             result:false,
+            operation:false,
         }
     },
     methods: {
@@ -59,38 +60,41 @@ export default {
             if(this.visor == '0') {
                 this.visor = this.visor.trim().substring(0, this.visor.length - 1);
             }
-            if(this.result) {
+            if(this.result && this.history.indexOf('=') != -1) {
                 this.result = false;
                 this.history = '';
                 return this.visor = e.target.value;
             }
+            if(this.operation) {
+                this.visor = '';
+                this.operation = false;
+            }
             return this.visor += e.target.value;
-            
         },
         inputOperation(e) {
+            if(this.operation) {
+                return this.history = this.visor + e.target.value;
+            }
             if(this.visor.indexOf(e.target.value, 1) == 2) {
                 return;
             }
             this.history = this.visor + e.target.value;
-            this.visor = '';
+            this.operation = true;
         },
         equal() {
             this.result = true;
-            
             let originalHistory = this.history;
             let originalVisor = this.visor;
-            this.history = originalHistory.replace(',', '.').replace('.', ',');
-            this.visor = originalVisor.replace(',', '.').replace('.', ',');
+            this.history = originalHistory.replace(',', '.');
+            this.visor = originalVisor.replace(',', '.');
             
             this.visor = eval(this.history+this.visor).toLocaleString('pt-BR');
             this.history = originalHistory + originalVisor + ' =';
         },
         clear() {
             this.history = '';
-            return this.visor = '0';
-        },
-        zero() {
-            this.history = '';
+            this.result = false;
+            this.operation = false;
             return this.visor = '0';
         },
         removeLast() {
@@ -114,35 +118,31 @@ export default {
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    margin-top: 2%;
-    width:63%;
 }
 
 .input-history, .input-visor {
     text-align: right;
-    width: 62%;
-    max-width: 335px;
+    max-width: 305px;
     padding: 2% 1%;
     cursor: default;
+    max-height: 70px;
 }
 
 .input-history {
-    background-color: rgb(245, 245, 220);
+    background-color: var(--theme-background-secondary);
     border: none;
-    color: rgba(0, 0, 0, 0.5);
+    color: var(--theme-foreground);
     box-shadow: none;
-
-    margin-bottom: 1%;
 }
 
 .input-visor {
-    background-color:rgba(44, 62, 80, .8);
+    background-color:var(--theme-button-background-primary);
     border-radius: 3px;
-    border: 1px solid rgb(44, 62, 80);
+    border: 1px solid var(--theme-button-background-primary);
     box-shadow: 3px 3px rgba(0, 0, 0, 0.2);
     font-size: 1.7rem;
-    
-    color: rgba(255, 255, 255, .8);
+    margin-bottom: 5px;
+    color: var(--theme-button-color);
 }
 .button {
     display: flex;
@@ -151,12 +151,12 @@ export default {
 
     cursor: pointer;
 
-    width: 80px;
-    height: 80px;
-    padding: 2%;
-    margin: 0.5% 0.5%;
-    background: #2c3e50;
-    color: white;
+    width: 75px;
+    height: 75px;
+    padding: 1%;
+    margin: .1%;
+    background: var(--theme-button-background-primary);
+    color: var(--theme-button-color);
     font-size: 1.6rem;
 
     box-shadow: 3px 3px rgba(0, 0, 0, 0.2);
@@ -168,7 +168,10 @@ export default {
     opacity: .9;
 }
 
-.button::after {
-    opacity: .9;
+.button:active {
+    background:var(--theme-button-color-click);
+}
+.buttonActive {
+    background:var(--theme-button-color-click);
 }
 </style>

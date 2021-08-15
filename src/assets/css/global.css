@@ -1,0 +1,32 @@
+body {
+    --theme-background: #F2F6FF;
+    --theme-background-secondary: #f3f3eb;
+    --theme-foreground: #222222;
+    --theme-accent-foreground: #ffffff;
+    --theme-accent-hover-green:#008000;
+    --theme-text-danger:#dc3545;
+    --theme-button-background-primary: #2c3e50cc;
+    --theme-button-color:#F2F6FF;
+    --theme-button-color-click:#3e3e3f;
+}
+
+body.theme-dark {
+    --theme-background: #222222;
+    --theme-background-secondary: #313131;
+    --theme-foreground: #eeeeee;
+    --theme-accent-foreground: #222222;
+    --theme-accent-hover-green:#008000;
+    --theme-text-danger:#dc3545;
+    --theme-button-background-primary: #e8f2fdcc;
+    --theme-button-color:#313131;
+    --theme-button-color-click:#ffffff;
+}
+
+/* Aqui começa o CSS padrão */
+body {
+    background: var(--theme-background-secondary);
+    color: var(--theme-foreground);
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+}
+
+
